@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  server:
+    image: sherpacash/relayer
+    restart: always
+    command: server-withdraw-only
+    env_file: .env
+    environment:
+      REDIS_URL: redis://redis/0
+      nginx_proxy_read_timeout: 600
+    depends_on: [redis]
+#  priceWatcher:
+#    image: sherpacash/relayer
+#    restart: always
+#    command: priceWatcher
+#    env_file: .env
+#    environment:
+#      REDIS_URL: redis://redis/0
+#    depends_on: [redis]
+#  healthWatcher:
+#    image: sherpacash/relayer
+#    restart: always
+#    command: healthWatcher
+#    env_file: .env
+#    environment:
+#      REDIS_URL: redis://redis/0
+#    depends_on: [redis]
+  worker:
+    image: sherpacash/relayer
+    restart: always
+    command: worker-withdraw-only
+    env_file: .env
+    environment:
+      REDIS_URL: redis://redis/0
+    depends_on: [redis]
+  redis:
+    image: redis
+    restart: always
+    command: [redis-server, --appendonly, 'yes']
+    volumes:
+      - redis:/data
+volumes:
+  redis:
