@@ -10,6 +10,8 @@ services:
       REDIS_URL: redis://redis/0
       nginx_proxy_read_timeout: 600
     depends_on: [redis]
+    ports:
+    - 8000:8000
 #  priceWatcher:
 #    image: sherpacash/relayer
 #    restart: always
