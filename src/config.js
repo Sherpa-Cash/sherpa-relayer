@@ -4,7 +4,7 @@ const { jobType } = require('./constants')
 const tokenConfig = require('./token-config')
 
 module.exports = {
-  netId: Number(process.env.NET_ID) || 1,
+  netId: Number(process.env.NET_ID) || 43114,
   redisUrl: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
   httpRpcUrl: process.env.HTTP_RPC_URL,
   wsRpcUrl: process.env.WS_RPC_URL,
