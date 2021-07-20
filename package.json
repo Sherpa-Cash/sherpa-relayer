@@ -6,6 +6,7 @@
     "server": "node src/server.js",
     "server-withdraw-only": "node src/server-withdraw-only.js",
     "worker-withdraw-only": "node src/worker-withdraw-only.js",
+    "worker": "node src/worker.js",
     "treeWatcher": "node src/treeWatcher",
     "priceWatcher": "node src/priceWatcher",
     "healthWatcher": "node src/healthWatcher",
@@ -14,7 +15,8 @@
     "prettier:fix": "npx prettier --write . --config .prettierrc",
     "lint": "yarn eslint && yarn prettier:check",
     "test": "mocha",
-    "start": "yarn server & yarn priceWatcher & yarn treeWatcher & yarn worker & yarn healthWatcher"
+    "start": "yarn server & yarn priceWatcher & yarn treeWatcher & yarn worker & yarn healthWatcher",
+    "start-withdraw-only": "yarn server-withdraw-only & yarn priceWatcher & yarn treeWatcher & yarn worker-withdraw-only & yarn healthWatcher"
   },
   "author": "tornado.cash",
   "license": "MIT",

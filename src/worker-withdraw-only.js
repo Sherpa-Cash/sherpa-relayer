@@ -46,7 +46,9 @@ async function start() {
 }
 
 async function checkTornadoFee({ args, contract }) {
+  console.log('a')
   const { currency, amount } = getInstance(contract)
+  console.log('b')
   const { decimals } = instances[`netId${netId}`][currency]
   const [fee, refund] = [args[4], args[5]].map(toBN)
 
