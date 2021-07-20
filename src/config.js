@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 const { jobType } = require('./constants')
-const tornConfig = require('torn-token')
+const tokenConfig = require('./token-config')
+
 module.exports = {
   netId: Number(process.env.NET_ID) || 1,
   redisUrl: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
@@ -12,8 +13,8 @@ module.exports = {
   aggregatorAddress: process.env.AGGREGATOR,
   minerMerkleTreeHeight: 20,
   privateKey: process.env.PRIVATE_KEY,
-  instances: tornConfig.instances,
-  torn: tornConfig,
+  instances: tokenConfig.instances,
+  torn: tokenConfig,
   port: process.env.APP_PORT || 8000,
   tornadoServiceFee: Number(process.env.REGULAR_TORNADO_WITHDRAW_FEE),
   miningServiceFee: Number(process.env.MINING_SERVICE_FEE),
