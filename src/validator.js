@@ -42,6 +42,7 @@ const addressType = { type: 'string', pattern: '^0x[a-fA-F0-9]{40}$', isAddress:
 const proofType = { type: 'string', pattern: '^0x[a-fA-F0-9]{512}$' }
 const encryptedAccountType = { type: 'string', pattern: '^0x[a-fA-F0-9]{392}$' }
 const bytes32Type = { type: 'string', pattern: '^0x[a-fA-F0-9]{64}$' }
+const numericString = { type: 'string', pattern: '.*' }
 const instanceType = { ...addressType, isKnownContract: true }
 const relayerType = { ...addressType, isFeeRecipient: true }
 
@@ -54,7 +55,7 @@ const tornadoWithdrawSchema = {
       type: 'array',
       maxItems: 6,
       minItems: 6,
-      items: [bytes32Type, bytes32Type, addressType, relayerType, bytes32Type, bytes32Type],
+      items: [bytes32Type, bytes32Type, addressType, relayerType, numericString, numericString],
     },
   },
   additionalProperties: false,
