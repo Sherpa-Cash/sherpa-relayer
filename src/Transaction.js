@@ -134,9 +134,7 @@ class Transaction {
       const maxGasPrice = parseUnits(this.config.MAX_GAS_PRICE.toString(), 'gwei')
       this.tx.gasPrice = min(fastGasPrice, maxGasPrice).toHexString()
     }
-    if (!this.manager._nonce) {
-      this.manager._nonce = await this._getLastNonce()
-    }
+    this.manager._nonce = await this._getLastNonce()
     this.tx.nonce = this.manager._nonce
     if (!this.manager._chainId) {
       const net = await this._provider.getNetwork()
