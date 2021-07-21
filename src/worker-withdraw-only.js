@@ -1,7 +1,8 @@
 const Web3 = require('web3')
 const { toBN, fromWei } = require('web3-utils')
 const Redis = require('ioredis')
-
+const tornadoABI = require('../abis/tornadoABI.json')
+const tornadoProxyABI = require('../abis/tornadoProxyABI.json')
 const { queue } = require('./queue')
 const { getInstance, fromDecimals } = require('./utils')
 const { jobType, status } = require('./constants')
@@ -13,9 +14,11 @@ const {
   privateKey,
   httpRpcUrl,
   tornadoServiceFee,
+  tornadoFujiProxy,
+  tornadoMainnetProxy
 } = require('./config')
 
-const { TxManager } = require('tx-manager')
+const TxManager = require('./TxManager')
 
 let web3
 let currentTx
@@ -46,9 +49,10 @@ async function start() {
 }
 
 async function checkTornadoFee({ args, contract }) {
-  console.log('a')
-  const { currency, amount } = getInstance(contract)
-  console.log('b')
+  // const { currency, amount } = getInstance(contract)
+  const inst = getInstance(contract)
+  const currency = inst.currency
+  const amount = inst.amount
   const { decimals } = instances[`netId${netId}`][currency]
   const [fee, refund] = [args[4], args[5]].map(toBN)
 
@@ -84,11 +88,28 @@ async function checkTornadoFee({ args, contract }) {
   }
 }
 
-async function getTxObject({ data }) {
+function getProxyContract() {
+  let proxyAddress
+
+  if (netId === 43113) {
+    proxyAddress = tornadoFujiProxy
+  } else {
+    proxyAddress = tornadoMainnetProxy
+  }
+
+  const contract = new web3.eth.Contract(tornadoProxyABI, proxyAddress)
+
+  return contract
+}
+
+function getTxObject({ data }) {
+  // let contract = new web3.eth.Contract(tornadoABI, data.contract)
+  let proxy = getProxyContract()
+  let calldata = proxy.methods.withdraw(data.contract, data.proof, ...data.args).encodeABI()
   return {
-    value: data.args[5],
-    to: contract._address,
-    data: data.contract.methods.withdraw(data.proof, ...data.args).encodeABI(),
+    //value: data.args[5],
+    to: proxy._address,
+    data: calldata,
   }
 }
 
@@ -110,7 +131,7 @@ async function processJob(job) {
 }
 
 async function submitTx(job, retry = 0) {
-  await checkTornadoFee(job)
+  await checkTornadoFee(job.data)
   currentTx = await txManager.createTx(await getTxObject(job))
 
   try {

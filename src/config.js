@@ -19,7 +19,8 @@ module.exports = {
   tornadoServiceFee: Number(process.env.REGULAR_TORNADO_WITHDRAW_FEE),
   miningServiceFee: Number(process.env.MINING_SERVICE_FEE),
   rewardAccount: process.env.REWARD_ACCOUNT,
-  tornadoGoerliProxy: '0x454d870a72e29d5E5697f635128D18077BD04C60',
+  tornadoFujiProxy: '0xC0EB087ac8C732AC23c52A16627c4539d8966d79',
+  tornadoMainnetProxy: '0x171Fb28ebfFcb2737E530E1Fd48CB4Ef12E5031e',
   gasLimits: {
     [jobType.TORNADO_WITHDRAW]: 350000,
     [jobType.MINING_REWARD]: 455000,

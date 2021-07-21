@@ -12,6 +12,10 @@ const TOKENS = {
 
 const sleep = ms => new Promise(res => setTimeout(res, ms))
 
+const max = (a, b) => (a.gt(b) ? a : b)
+
+const min = (a, b) => (a.lt(b) ? a : b)
+
 function getInstance(address) {
   address = toChecksumAddress(address)
   const inst = instances[`netId${netId}`]
@@ -123,6 +127,8 @@ module.exports = {
   setSafeInterval,
   poseidonHash2,
   sleep,
+  max,
+  min,
   when,
   getArgsForOracle,
   fromDecimals,

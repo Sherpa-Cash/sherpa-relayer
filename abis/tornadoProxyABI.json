@@ -2,23 +2,139 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "_tornadoTrees",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "_sherpaTrees",
+        "type": "address"
       },
       {
-        "internalType": "bytes32",
+        "internalType": "address",
         "name": "_governance",
-        "type": "bytes32"
+        "type": "address"
       },
       {
-        "internalType": "contract ITornado[]",
+        "components": [
+          {
+            "internalType": "contract ISherpaInstance",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "bool",
+                "name": "isERC20",
+                "type": "bool"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "enum SherpaProxy.InstanceState",
+                "name": "state",
+                "type": "uint8"
+              }
+            ],
+            "internalType": "struct SherpaProxy.Instance",
+            "name": "instance",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct SherpaProxy.Sherpa[]",
         "name": "_instances",
-        "type": "address[]"
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "encryptedNote",
+        "type": "bytes"
+      }
+    ],
+    "name": "EncryptedNote",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "contract ISherpaInstance",
+        "name": "instance",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum SherpaProxy.InstanceState",
+        "name": "state",
+        "type": "uint8"
+      }
+    ],
+    "name": "InstanceStateUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract ISherpaTrees",
+        "name": "addr",
+        "type": "address"
+      }
+    ],
+    "name": "SherpaTreesUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes[]",
+        "name": "_encryptedNotes",
+        "type": "bytes[]"
+      }
+    ],
+    "name": "backupNotes",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ISherpaInstance",
+        "name": "_sherpa",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_commitment",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_encryptedNote",
+        "type": "bytes"
+      }
+    ],
+    "name": "deposit",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -36,7 +152,7 @@
   {
     "inputs": [
       {
-        "internalType": "contract ITornado",
+        "internalType": "contract ISherpaInstance",
         "name": "",
         "type": "address"
       }
@@ -45,77 +161,42 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "",
+        "name": "isERC20",
         "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
+      },
       {
-        "internalType": "bytes32",
-        "name": "node",
-        "type": "bytes32"
-      }
-    ],
-    "name": "resolve",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "tornadoTrees",
-    "outputs": [
-      {
-        "internalType": "contract ITornadoTrees",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "contract ITornado",
-        "name": "tornado",
+        "internalType": "contract IERC20",
+        "name": "token",
         "type": "address"
       },
       {
-        "internalType": "bytes32",
-        "name": "commitment",
-        "type": "bytes32"
+        "internalType": "enum SherpaProxy.InstanceState",
+        "name": "state",
+        "type": "uint8"
       }
     ],
-    "name": "deposit",
-    "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "contract ITornado",
-        "name": "instance",
+        "internalType": "contract IERC20",
+        "name": "_token",
         "type": "address"
       },
       {
-        "internalType": "bool",
-        "name": "update",
-        "type": "bool"
+        "internalType": "address payable",
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
       }
     ],
-    "name": "updateInstances",
+    "name": "rescueTokens",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -123,43 +204,124 @@
   {
     "inputs": [
       {
-        "internalType": "contract ITornado",
-        "name": "tornado",
+        "internalType": "address",
+        "name": "_governance",
+        "type": "address"
+      }
+    ],
+    "name": "setGovernance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ISherpaTrees",
+        "name": "_sherpaTrees",
+        "type": "address"
+      }
+    ],
+    "name": "setSherpaTreesContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "sherpaTrees",
+    "outputs": [
+      {
+        "internalType": "contract ISherpaTrees",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract ISherpaInstance",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "bool",
+                "name": "isERC20",
+                "type": "bool"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "enum SherpaProxy.InstanceState",
+                "name": "state",
+                "type": "uint8"
+              }
+            ],
+            "internalType": "struct SherpaProxy.Instance",
+            "name": "instance",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct SherpaProxy.Sherpa",
+        "name": "_sherpa",
+        "type": "tuple"
+      }
+    ],
+    "name": "updateInstance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ISherpaInstance",
+        "name": "_sherpa",
         "type": "address"
       },
       {
         "internalType": "bytes",
-        "name": "proof",
+        "name": "_proof",
         "type": "bytes"
       },
       {
         "internalType": "bytes32",
-        "name": "root",
+        "name": "_root",
         "type": "bytes32"
       },
       {
         "internalType": "bytes32",
-        "name": "nullifierHash",
+        "name": "_nullifierHash",
         "type": "bytes32"
       },
       {
         "internalType": "address payable",
-        "name": "recipient",
+        "name": "_recipient",
         "type": "address"
       },
       {
         "internalType": "address payable",
-        "name": "relayer",
+        "name": "_relayer",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "fee",
+        "name": "_fee",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "refund",
+        "name": "_refund",
         "type": "uint256"
       }
     ],
