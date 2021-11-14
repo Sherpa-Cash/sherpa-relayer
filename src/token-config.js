@@ -9,7 +9,16 @@ module.exports = {
         },
         symbol: 'AVAX',
         decimals: 18
-      }
+      },
+      tsd: {
+        instanceAddress: {
+          100: '0xBA00d4B0A8E9A63c3c5788908c8a93A242d26e51',
+          1000: '0x4F3c2d6B74b387936b25916b81348881F09c8bdf',
+          10000: '0x7409642215b43F7DDAb528004D9ae9A414190A45',
+        },
+        symbol: 'TSD',
+        decimals: 18
+      },
     },
     netId43114: {
       avax: {
